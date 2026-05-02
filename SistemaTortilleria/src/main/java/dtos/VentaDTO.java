@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
  *
  * @author MoriTejo
  */
-public class VentaDTO implements IVentaDTO{
+public class VentaDTO {
     private int idVenta;
     private float cantidadKG;
     private float montoTotal;
@@ -26,22 +26,18 @@ public class VentaDTO implements IVentaDTO{
         this.fecha = fecha;
     }
 
-    @Override
     public int getIdVenta() {
         return idVenta;
     }
 
-    @Override
     public float getCantidadKG() {
         return cantidadKG;
     }
 
-    @Override
     public float getMontoTotal() {
         return montoTotal;
     }
 
-    @Override
     public GregorianCalendar getFecha() {
         return fecha;
     }

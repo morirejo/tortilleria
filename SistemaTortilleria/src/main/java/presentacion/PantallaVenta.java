@@ -17,7 +17,7 @@ public class PantallaVenta extends javax.swing.JFrame {
      * Creates new form PantallaVenta
      */
     
-    private IGestorVentas gestor = new GestorVentas();
+    private ControlPresentacionVenta mediador = new ControlPresentacionVenta();
     
     public PantallaVenta() {
         initComponents();
@@ -69,38 +69,37 @@ public class PantallaVenta extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnCalcular)
+                .addGap(138, 138, 138))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
+                        .addGap(41, 41, 41)
                         .addComponent(jLabel1)
-                        .addGap(32, 32, 32)
-                        .addComponent(fieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(fieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(labelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(btnCalcular)
-                        .addGap(29, 29, 29)
-                        .addComponent(labelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(284, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnPagar)
-                .addGap(134, 134, 134))
+                        .addGap(125, 125, 125)
+                        .addComponent(btnPagar)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(111, 111, 111)
+                .addGap(95, 95, 95)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(fieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 230, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCalcular)
+                    .addComponent(fieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelTotal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                .addComponent(btnCalcular)
+                .addGap(18, 18, 18)
                 .addComponent(btnPagar)
-                .addGap(79, 79, 79))
+                .addGap(88, 88, 88))
         );
 
         pack();
@@ -116,13 +115,16 @@ public class PantallaVenta extends javax.swing.JFrame {
             String inputBillete = javax.swing.JOptionPane.showInputDialog(this, "Total a cobrar: " + labelTotal.getText() + "\n¿De cuánto es el billete recibido?");
             float billete = Float.parseFloat(inputBillete);
             
-            float cambio = gestor.procesarPagoEfectivo(billete);
+            // Pasamos por el mediador
+            float cambio = mediador.solicitarCobro(billete);
             
-            javax.swing.JOptionPane.showMessageDialog(this, "¡Venta Exitosa!\nEntregar cambio: $" + cambio);
-            
-            // (Opcional) Limpiar la pantalla para el siguiente cliente
-            fieldCantidad.setText("");
-            labelTotal.setText("$0.00");
+            if(cambio >= 0) {
+                javax.swing.JOptionPane.showMessageDialog(this, "¡Venta Exitosa!\nEntregar cambio: $" + cambio);
+                fieldCantidad.setText("");
+                labelTotal.setText("$0.00");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "El pago es insuficiente.");
+            }
             
         } catch (NumberFormatException ex) {
             javax.swing.JOptionPane.showMessageDialog(this, "Pago cancelado o monto inválido.");
@@ -132,11 +134,10 @@ public class PantallaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPagarActionPerformed
 
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
-        // TODO add your handling code here:
         try {
             float kilos = Float.parseFloat(fieldCantidad.getText());
             
-            float total = gestor.calcularTotal(kilos);
+            float total = mediador.solicitarCalculo(kilos);
             
             labelTotal.setText("$" + total);
             
