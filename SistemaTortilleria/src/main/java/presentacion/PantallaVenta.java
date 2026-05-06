@@ -4,8 +4,8 @@
  */
 package presentacion;
 
-import negocio.GestorVentas;
-import negocio.IGestorVentas;
+import negocio.ventas.GestorVentas;
+import negocio.ventas.IGestorVentas;
 
 /**
  *
@@ -17,9 +17,9 @@ public class PantallaVenta extends javax.swing.JFrame {
      * Creates new form PantallaVenta
      */
     
-    private ControlPresentacionVenta mediador = new ControlPresentacionVenta();
+    private static ControlPresentacionVenta mediador = new ControlPresentacionVenta();
     
-    public PantallaVenta() {
+    public PantallaVenta(ControlPresentacionVenta mediador) {
         initComponents();
     }
 
@@ -34,13 +34,19 @@ public class PantallaVenta extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         fieldCantidad = new javax.swing.JTextField();
-        btnCalcular = new javax.swing.JButton();
-        labelTotal = new javax.swing.JLabel();
-        btnPagar = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        labelTotal = new javax.swing.JTextField();
+        btnConfirmar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Ingrese Kilogramos");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setText("Cantidad");
 
         fieldCantidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -48,20 +54,44 @@ public class PantallaVenta extends javax.swing.JFrame {
             }
         });
 
-        btnCalcular.setText("Calcular total");
-        btnCalcular.addActionListener(new java.awt.event.ActionListener() {
+        jTextField1.setEditable(false);
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField1.setText("TORTILLERIA");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCalcularActionPerformed(evt);
+                jTextField1ActionPerformed(evt);
             }
         });
 
-        labelTotal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        labelTotal.setText("$0.00");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Precio KG");
 
-        btnPagar.setText("Cobrar en efectivo");
-        btnPagar.addActionListener(new java.awt.event.ActionListener() {
+        jTextField2.setText("27.00");
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPagarActionPerformed(evt);
+                jTextField2ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("KG");
+
+        jLabel4.setText("$");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setText("Total:");
+
+        labelTotal.setEditable(false);
+        labelTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                labelTotalActionPerformed(evt);
+            }
+        });
+
+        btnConfirmar.setText("jButton1");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
             }
         });
 
@@ -69,37 +99,54 @@ public class PantallaVenta extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnCalcular)
-                .addGap(138, 138, 138))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(fieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(labelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addComponent(btnPagar)))
-                .addContainerGap(28, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(41, 41, 41)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel1)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel4))
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                                .addComponent(labelTotal)
+                                .addComponent(fieldCantidad))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(61, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(185, 185, 185)
+                    .addComponent(btnConfirmar)
+                    .addContainerGap(40, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(95, 95, 95)
+                .addContainerGap()
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(67, 67, 67)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(fieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelTotal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-                .addComponent(btnCalcular)
-                .addGap(18, 18, 18)
-                .addComponent(btnPagar)
-                .addGap(88, 88, 88))
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(labelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(80, 80, 80)
+                .addComponent(btnConfirmar)
+                .addGap(15, 15, 15))
         );
 
         pack();
@@ -109,83 +156,40 @@ public class PantallaVenta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_fieldCantidadActionPerformed
 
-    private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-        try {
-            String inputBillete = javax.swing.JOptionPane.showInputDialog(this, "Total a cobrar: " + labelTotal.getText() + "\n¿De cuánto es el billete recibido?");
-            float billete = Float.parseFloat(inputBillete);
-            
-            // Pasamos por el mediador
-            float cambio = mediador.solicitarCobro(billete);
-            
-            if(cambio >= 0) {
-                javax.swing.JOptionPane.showMessageDialog(this, "¡Venta Exitosa!\nEntregar cambio: $" + cambio);
-                fieldCantidad.setText("");
-                labelTotal.setText("$0.00");
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "El pago es insuficiente.");
-            }
-            
-        } catch (NumberFormatException ex) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Pago cancelado o monto inválido.");
-        } catch (Exception ex) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Primero calcule el total de la venta.");
-        }
-    }//GEN-LAST:event_btnPagarActionPerformed
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void labelTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_labelTotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_labelTotalActionPerformed
+
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         try {
             float kilos = Float.parseFloat(fieldCantidad.getText());
-            
-            float total = mediador.solicitarCalculo(kilos);
-            
-            labelTotal.setText("$" + total);
+            mediador.calcularTotal(kilos);
+            mediador.navegarAPantallaPago(this);
             
         } catch (NumberFormatException ex) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Por favor ingrese un número válido.");
+            javax.swing.JOptionPane.showMessageDialog(this, "Por favor ingrese los kilos con números antes de confirmar.");
         }
-    }//GEN-LAST:event_btnCalcularActionPerformed
+    }//GEN-LAST:event_btnConfirmarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PantallaVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PantallaVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PantallaVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PantallaVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PantallaVenta().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCalcular;
-    private javax.swing.JButton btnPagar;
+    private javax.swing.JButton btnConfirmar;
     private javax.swing.JTextField fieldCantidad;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel labelTotal;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField labelTotal;
     // End of variables declaration//GEN-END:variables
 }

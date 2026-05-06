@@ -4,7 +4,7 @@
  */
 package dtos;
 
-import java.util.GregorianCalendar;
+import java.util.Date;
 
 /**
  *
@@ -14,16 +14,16 @@ public class VentaDTO {
     private int idVenta;
     private float cantidadKG;
     private float montoTotal;
-    private GregorianCalendar fecha;
+    private Date fecha;
 
     public VentaDTO() {
     }
 
-    public VentaDTO(int idVenta, float cantidadKG, float montoTotal, GregorianCalendar fecha) {
+    public VentaDTO(int idVenta, float cantidadKG, float montoTotal) {
         this.idVenta = idVenta;
         this.cantidadKG = cantidadKG;
         this.montoTotal = montoTotal;
-        this.fecha = fecha;
+        this.fecha = new Date();;
     }
 
     public int getIdVenta() {
@@ -38,7 +38,7 @@ public class VentaDTO {
         return montoTotal;
     }
 
-    public GregorianCalendar getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
@@ -54,7 +54,7 @@ public class VentaDTO {
         this.montoTotal = montoTotal;
     }
 
-    public void setFecha(GregorianCalendar fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 }
